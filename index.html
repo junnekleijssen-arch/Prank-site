@@ -51,6 +51,19 @@
 </style>
 </head>
 <body>
+  <button id="fs" style="position:fixed;top:15px;right:15px;padding:10px 14px;border:none;
+background:white;color:#0078D7;border-radius:8px;font-weight:600;cursor:pointer;">
+Go Fullscreen
+</button>
+
+<script>
+document.getElementById("fs").addEventListener("click", () => {
+  if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen();
+  }
+});
+</script>
+
   <div class="spinner"></div>
   <div class="text">
     <h2>Working on updates…</h2>
