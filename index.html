@@ -1,111 +1,62 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>🎉 Surprise!</title>
-<style>
-  html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
-  .wrap{display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;background:linear-gradient(135deg,#0f172a,#0b2540);}
-  .card{background:rgba(255,255,255,0.06);backdrop-filter:blur(4px);padding:28px;border-radius:16px;box-shadow:0 6px 30px rgba(0,0,0,0.4);text-align:center;color:#fff;width:90%;max-width:560px}
-  h1{margin:0 0 8px;font-size:28px;letter-spacing:0.5px}
-  p{margin:6px 0 14px;opacity:0.9}
-  img{width:160px;height:auto;border-radius:12px;display:block;margin:10px auto}
-  button{background:#fff;color:#0b2540;padding:10px 14px;border-radius:10px;border:0;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,0.25)}
-  .confetti-piece{position:fixed;top:-10px;left:50%;width:10px;height:16px;opacity:0.95;transform-origin:center}
-  .small{width:8px;height:12px}
-  .hide{display:none}
-  footer{font-size:12px;color:rgba(255,255,255,0.6);margin-top:12px}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>System Loading...</title>
 <style>
   html,body {
-    height:100%;margin:0;
-    font-family:Segoe UI,Arial;
-    background:#0078D7;color:white;
-    display:flex;align-items:center;justify-content:center;
-    flex-direction:column;text-align:center;
+    height:100%;
+    margin:0;
+    background:#0078D7; /* Windows blue */
+    color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    font-family:"Segoe UI", Arial, sans-serif;
+    user-select:none;
   }
+
   .spinner {
-    border:6px solid rgba(255,255,255,0.2);
+    width:80px;
+    height:80px;
+    border:10px solid rgba(255,255,255,0.2);
     border-top-color:white;
     border-radius:50%;
-    width:60px;height:60px;
-    animation:spin 1.2s linear infinite;
-    margin-bottom:20px;
+    animation:spin 1.3s linear infinite;
+    margin-bottom:30px;
   }
-  @keyframes spin { to {transform:rotate(360deg);} }
-  p {font-size:18px;opacity:0.9}
+
+  @keyframes spin {
+    to {transform:rotate(360deg);}
+  }
+
+  .text {
+    text-align:center;
+    line-height:1.5;
+  }
+
+  .progress {
+    margin-top:20px;
+    font-size:18px;
+    opacity:0.9;
+  }
+
+  .note {
+    font-size:15px;
+    opacity:0.8;
+    margin-top:40px;
+  }
 </style>
-
-<div class="spinner"></div>
-<p>Working on updates 99% complete<br>Please do not turn off your computer.</p>
-<p style="font-size:14px;margin-top:40px;opacity:0.6">Press ESC to close</p>
-
-
-<script>
-(function(){
-  // CONFETTI: create pieces and animate with CSS/JS
-  const colors = ['#ffd166','#ef476f','#06d6a0','#118ab2','#ffd6a5'];
-  function spawnConfetti(count=45){
-    for(let i=0;i<count;i++){
-      const el = document.createElement('div');
-      el.className = 'confetti-piece';
-      if(Math.random()<0.4) el.classList.add('small');
-      el.style.left = (Math.random()*100)+'vw';
-      el.style.background = colors[Math.floor(Math.random()*colors.length)];
-      el.style.transform = `rotate(${Math.random()*360}deg)`;
-      el.style.opacity = 0.95;
-      const fall = 1200 + Math.random()*1200;
-      el.style.transition = `transform ${fall}ms linear, top ${fall}ms linear, opacity ${fall-200}ms ease-out`;
-      document.body.appendChild(el);
-      // force layout then drop
-      requestAnimationFrame(()=> {
-        el.style.top = (100 + Math.random()*10)+'vh';
-        el.style.transform = `translateY(${20+Math.random()*400}px) rotate(${Math.random()*720}deg)`;
-      });
-      // tidy up
-      setTimeout(()=> el.remove(), fall+300);
-    }
-  }
-
-  // SMALL TUNE via Web Audio API (no external assets)
-  let audioCtx;
-  function playTune(){
-    if(!window.AudioContext && !window.webkitAudioContext) return;
-    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-    const now = audioCtx.currentTime;
-    const o = audioCtx.createOscillator();
-    const g = audioCtx.createGain();
-    o.type = 'sine';
-    o.connect(g);
-    g.connect(audioCtx.destination);
-    g.gain.value = 0.0001;
-    o.start(now);
-    // short melody (notes in Hz)
-    const notes = [660, 784, 880, 988, 880, 784, 660];
-    let t = now;
-    notes.forEach((f,i)=>{
-      o.frequency.setValueAtTime(f, t);
-      g.gain.exponentialRampToValueAtTime(0.12, t+0.01);
-      g.gain.exponentialRampToValueAtTime(0.001, t+0.15);
-      t += 0.17;
-    });
-    // stop
-    setTimeout(()=>{ o.stop(); }, (notes.length*170)+80);
-    spawnConfetti(36);
-  }
-
-  // auto-play once (navigation counts as user gesture in most browsers)
-  window.addEventListener('load', ()=> {
-    try{ playTune(); }catch(e){ /* audio blocked or unsupported */ }
-  });
-
-  document.getElementById('again').addEventListener('click', ()=>{
-    playTune();
-  });
-
-  // small cheeky close-on-escape: allow user to dismiss rapidly
-  document.addEventListener('keydown', e => { if(e.key==='Escape') window.close?.(); });
-})();
-</script>
+</head>
+<body>
+  <div class="spinner"></div>
+  <div class="text">
+    <h2>Working on updates…</h2>
+    <div class="progress">99% complete</div>
+    <div class="note">Please don't close this tab until loading has finished.</div>
+  </div>
 </body>
 </html>
+
