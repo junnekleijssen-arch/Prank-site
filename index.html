@@ -8,7 +8,7 @@
   html,body {
     height:100%;
     margin:0;
-    background:#0078D7; /* Windows blue */
+    background:#0078D7;
     color:white;
     display:flex;
     flex-direction:column;
@@ -48,28 +48,28 @@
     opacity:0.8;
     margin-top:40px;
   }
+
+  #fs {
+    margin-top:60px;
+    font-size:22px;
+    padding:18px 36px;
+    border:none;
+    border-radius:14px;
+    background:white;
+    color:#0078D7;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 4px 14px rgba(0,0,0,0.25);
+    transition:transform 0.15s ease;
+  }
+
+  #fs:hover {
+    transform:scale(1.06);
+  }
 </style>
 </head>
 <body>
-  <button id="fs" style="position:fixed;top:15px;right:15px;padding:10px 14px;border:none;
-background:white;color:#0078D7;border-radius:8px;font-weight:600;cursor:pointer;">
-Click here to start update: important!
-</button>
-
-<script>
-document.getElementById("fs").addEventListener("click", () => {
-  if (document.documentElement.requestFullscreen) {
-    document.documentElement.requestFullscreen();
-  }
-});
-</script>
-
   <div class="spinner"></div>
   <div class="text">
-    <h2>Working on updates…</h2>
-    <div class="progress">99% complete</div>
-    <div class="note">Please don't close this tab until loading has finished.</div>
-  </div>
-</body>
-</html>
+    <h2>Working on updates…<
 
