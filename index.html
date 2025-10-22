@@ -71,5 +71,24 @@
 <body>
   <div class="spinner"></div>
   <div class="text">
-    <h2>Working on updates…<
+    <h2>Working on updates…</h2>
+    <div class="progress">99% complete</div>
+    <div class="note">Please don't close this tab until loading has finished.</div>
+  </div>
 
+  <button id="fs">🔵 Click here for fullscreen</button>
+
+  <script>
+  document.getElementById("fs").addEventListener("click", () => {
+    const elem = document.documentElement;
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) { // Safari
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { // IE/Edge
+      elem.msRequestFullscreen();
+    }
+  });
+  </script>
+</body>
+</html>
